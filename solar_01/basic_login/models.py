@@ -1,3 +1,4 @@
+from django.conf import settings
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
@@ -11,11 +12,13 @@ class Properties(models.Model):
             ]
     role = models.CharField(max_length=100, choices=ROLES, default=CUSTOMER)
     #profile_image = models.ImageField(...)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='properties')
 
 class Project(models.Model):
     name = models.CharField(max_length=200, blank=False)
     start_date = models.DateTimeField(default=datetime.now)
+    customer = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='project_customer')
+    owner = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='project_owner')
     def __str__(self) -> str:
         return self.name
 

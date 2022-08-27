@@ -1,10 +1,9 @@
+{% extends 'basic_login/main.html' %}
+
+{% block content %}
+
 <h3>DASHBOARD</h3>
 
-<h1>Projects</h1>
-<ul>
-{% for project in projects.all %}
-    <li>{{ project.name }}</li>
-{% endfor %}
-</ul>
 
-<a href="{% url 'basic_login:logout' %}">Logout</a>
+
+{% endblock %}

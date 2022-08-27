@@ -1,0 +1,15 @@
+{% extends 'basic_login/main.html' %}
+
+{% block content %}
+
+<h3>Projects</h3>
+
+<ul>
+{% for project in projects.all %}
+    <li>{{ project.name }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'basic_login:dashboard' %}">Back</a>
+
+{% endblock %}

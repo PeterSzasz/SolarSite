@@ -15,7 +15,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 class ProjectAdmin(admin.ModelAdmin):
-    field = ['name']
+    field = ['name,customer,owner,start_date']
 admin.site.register(Project, ProjectAdmin)
 
 class SiteAdmin(admin.ModelAdmin):

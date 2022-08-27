@@ -46,3 +46,15 @@ def dashboardPage(request):
     context = {'projects':projects}
     return render(request, 'basic_login/dashboard.html', context)
 
+@login_required(login_url='basic_login:login')
+def projectPage(request):
+    user = request.user
+    projects = None
+    if user.id == 1:
+        projects = Project.objects.all()
+    elif user.properties.role == 'CUSTOMER':
+        projects = Project.objects.filter(customer=user.id)
+    elif user.properties.role == 'STAFF':
+        projects = Project.objects.filter(owner=user.id)
+    context = {'projects':projects}
+    return render(request, 'basic_login/projects.html', context)
