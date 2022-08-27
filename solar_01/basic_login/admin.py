@@ -1,14 +1,18 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 
-from .models import Roles, User, Project, Site, Device
+from .models import Properties, Project, Site, Device
 
-class UserAdmin(admin.ModelAdmin):
-    field = ['name', 'role']
+class UserRole(admin.StackedInline):
+    model = Properties
+    can_delete = False
+    verbose_name_plural = 'roles'
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (UserRole,)
+admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-
-class RolesAdmin(admin.ModelAdmin):
-    field = ['id', 'name']
-admin.site.register(Roles, RolesAdmin)
 
 class ProjectAdmin(admin.ModelAdmin):
     field = ['name']

@@ -1,14 +1,17 @@
 from datetime import datetime
 from django.db import models
+from django.contrib.auth.models import User
 
-class Roles(models.Model):
-    name = models.CharField(blank=False, max_length=200)
-
-class User(models.Model):
-    name = models.CharField(max_length=200, blank=False)
-    email = models.CharField(max_length=200, blank=False)
-    password = models.CharField(max_length=200, blank=False)
-    role = models.ForeignKey(Roles, on_delete=models.CASCADE)
+class Properties(models.Model):
+    CUSTOMER = 'CUSTOMER'
+    STAFF = 'STAFF'
+    ROLES = [
+                (CUSTOMER, 'Customer'),
+                (STAFF, 'Staff'),
+            ]
+    role = models.CharField(max_length=100, choices=ROLES, default=CUSTOMER)
+    #profile_image = models.ImageField(...)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 class Project(models.Model):
     name = models.CharField(max_length=200, blank=False)
