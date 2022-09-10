@@ -21,6 +21,11 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'basic_login:projects' %}">My Projects</a>
         </li>
+        {% if request.user.properties.role == 'STAFF' %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'basic_login:new_project' %}">New Project</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   

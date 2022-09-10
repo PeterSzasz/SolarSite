@@ -2,8 +2,9 @@ from django.shortcuts import get_list_or_404, redirect, render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.urls import is_valid_path
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CreateProjectForm
 from .models import Project
 
 def loginPage(request):
@@ -47,14 +48,27 @@ def dashboardPage(request):
     return render(request, 'basic_login/dashboard.html', context)
 
 @login_required(login_url='basic_login:login')
+def newprojectPage(request):
+    form = CreateProjectForm()
+
+    if request.method == 'POST':
+        form = CreateProjectForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('basic_login:dashboard')
+
+    context = {'form': form}
+    return render(request, 'basic_login/new_project.html', context)
+
+@login_required(login_url='basic_login:login')
 def projectPage(request):
     user = request.user
     projects = None
     if user.id == 1:
-        projects = Project.objects.all()
+        projects = Project.objects.all().order_by("-due_date")
     elif user.properties.role == 'CUSTOMER':
-        projects = Project.objects.filter(customer=user.id)
+        projects = Project.objects.filter(customer=user.id).order_by("-due_date")
     elif user.properties.role == 'STAFF':
-        projects = Project.objects.filter(owner=user.id)
+        projects = Project.objects.filter(owner=user.id).order_by("-due_date")
     context = {'projects':projects}
     return render(request, 'basic_login/projects.html', context)

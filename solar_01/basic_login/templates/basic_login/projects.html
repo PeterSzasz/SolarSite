@@ -2,14 +2,33 @@
 
 {% block content %}
 
-<h3>Projects</h3>
-
-<ul>
-{% for project in projects.all %}
-    <li>{{ project.name }}</li>
-{% endfor %}
-</ul>
-
-<a href="{% url 'basic_login:dashboard' %}">Back</a>
+<div class="container">
+    <div class="row m-4">
+        <div class="col-2">    
+            <h3>Projects</h3>
+            <ul>
+                {% for project in projects.all %}
+                <li>{{ project.name }}</li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'basic_login:dashboard' %}">Back</a>
+        </div>
+        <div class="col">    
+            <ul>
+                <hr>
+                {% for project in projects.all %}
+                <li>Nev: {{ project.name }}</li>
+                <li>Vevo: {{ project.customer.get_full_name }}</li>
+                {% for site in project.sites.all %}
+                    <li>Helyszin: {{ site.name }}</li>
+                    <li>Cim: {{ site.address }}</li>
+                {%endfor%}
+                <li>Varhato bef.: {{ project.due_date }}</li>
+                <hr>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>    
+</div>
 
 {% endblock %}
