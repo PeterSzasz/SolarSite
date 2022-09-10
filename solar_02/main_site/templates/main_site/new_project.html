@@ -1,0 +1,20 @@
+{% extends 'basic_login/main.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row m-4">
+        <div class="col-2"><h3>Create Project</h3></div>
+        <div class="col">
+            <div class="d-flex justify-content-center form_container">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <input type="submit" name="Create Project">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
